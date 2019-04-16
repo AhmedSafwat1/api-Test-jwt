@@ -8,6 +8,7 @@ const Student = require("../Models/student"),
 studentRoute.get("/",async(req,rs)=>{ // list data
    let result = await Student.find({}).populate('subjects').catch(e=>rs.status(501).send("error "+e))
    rs.status(200).send(result)
+   
 })
 
 studentRoute.get("/:id",async(req,rs)=>{ // show details

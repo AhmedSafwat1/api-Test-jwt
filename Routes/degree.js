@@ -9,6 +9,7 @@ degreeRoute.get("/",async(req,rs)=>{ // get all degree
                         .populate('subject').populate('student')
                         .catch(e=>rs.status(501).send("error "+e))
     rs.status(200).send(result)
+    
                 
 } )
 degreeRoute.get("/:id",async(req,rs)=>{ // get all degree for subject

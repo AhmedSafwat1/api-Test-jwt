@@ -6,7 +6,9 @@ const express = require("express"),
       bodyParser = require("body-parser"),
       port = process.env.port || 8080,
       cors = require("cors"),
-      morgan = require("morgan")
+      morgan = require("morgan"),
+      AuthRoute = require("./Routes/Auth"),
+      ensureToken = require("./Middleware/ensureToken");
 //middlware *************************************************
 const errorMidlware = require("./Middleware/errors");
 //route *****************************************************
@@ -23,8 +25,10 @@ app.use(express.static(path.join(__dirname, 'Public')))
 // connect mongo ********************************************
 mongoose.connect("mongodb://127.0.0.1:27017/AngularTask",{ useNewUrlParser: true })
 .then(()=>console.log("connect to mongo"))
-.catch((error)=>console.error("connect to mongo failed"))
+.catch((error)=>{console.error("connect to mongo failed"); })
 //Route config ****************************8
+app.use("/api",AuthRoute)
+app.use(ensureToken)
 app.use("/api/student",studentRoute)
 app.use("/api/subject",subjectRoute)
 app.use("/api/degree",degreeRoute)
